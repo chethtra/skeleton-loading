@@ -28,7 +28,7 @@ createLoadingElements = function(elements){
 }
 
 class LoadingScreen{
-    constructor(container, duration = 0){
+    constructor({container, duration = 0}){
         this.duration = duration;
         this.loadingContainer = container;   
     }
@@ -47,5 +47,5 @@ class LoadingScreen{
     }
 }
 
-let load = new LoadingScreen('#container');
+let load = new LoadingScreen({container: '#container', duration: 1500});
 load.start();
