@@ -55,5 +55,5 @@ class LoadingScreen{
     }
 }
 
-let load = new LoadingScreen({container: '#container', duration: 1500});
+let load = new LoadingScreen({container: '#something', duration: 1000});
 load.start();
