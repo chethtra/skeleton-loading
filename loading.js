@@ -1,15 +1,27 @@
-const styleKeys = [
-'height', 
-'width', 
-'margin', 
-'padding', 
-'position', 
-'top', 
-'bottom', 
-'left', 
-'right',
-'border-radius'
+const elementStyle = [
+    'height', 
+    'width', 
+    'margin', 
+    'padding', 
+    'position', 
+    'top', 
+    'bottom', 
+    'left', 
+    'right',
+    'border-radius'
 ];
+
+const containerStyle = [
+    'height', 
+    'width', 
+    'margin', 
+    'padding', 
+    'position', 
+    'top', 
+    'bottom', 
+    'left', 
+    'right'
+]
 
 createLoadingDiv = function(styling,){
     let element = document.createElement('div');
