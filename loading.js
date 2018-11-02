@@ -1,13 +1,11 @@
 setLoadingStyle = function(styling, element){
     let {height, width, margin, padding} = styling;
-    
     element.style.height = height;
     element.style.width = width;
     element.style.margin = margin || 0;
     element.style.padding = padding;
     element.style.borderRadius = styling['border-radius'];
     element.style.backgroundColor = 'gray';
-
     return element;
 }
 
@@ -22,9 +20,7 @@ startLoadingTimer = function(duration){
 
 createLoadingElements = function(elements){
     elements.forEach(e => { 
-
         let elementStyles = window.getComputedStyle(e);
-        
         let loadingDiv = document.createElement('div');
         loadingDiv = setLoadingStyle(elementStyles, loadingDiv);
         document.getElementById('loading').appendChild(loadingDiv);
@@ -41,11 +37,8 @@ class LoadingScreen{
     start(){
         let children = document.querySelector(this.loadingContainer).childNodes;
         children = Array.from(children);
-
         let loadableElements = children.filter(e => e.scrollHeight && e.scrollWidth);
-
         createLoadingElements(loadableElements);
-
         if(this.duration)
             startLoadingTimer(this.duration);     
     }
