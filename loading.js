@@ -1,10 +1,19 @@
-setLoadingStyle = function(styling, element){
-    let {height, width, margin, padding} = styling;
-    element.style.height = height;
-    element.style.width = width;
-    element.style.margin = margin || 0;
-    element.style.padding = padding;
-    element.style.borderRadius = styling['border-radius'];
+const styleKeys = [
+'height', 
+'width', 
+'margin', 
+'padding', 
+'position', 
+'top', 
+'bottom', 
+'left', 
+'right',
+'border-radius'
+];
+
+createLoadingDiv = function(styling,){
+    let element = document.createElement('div');
+    styleKeys.forEach(e=>element.style[e] = styling[e]);
     element.style.backgroundColor = 'gray';
     return element;
 }
@@ -21,8 +30,7 @@ startLoadingTimer = function(duration){
 createLoadingElements = function(elements){
     elements.forEach(e => { 
         let elementStyles = window.getComputedStyle(e);
-        let loadingDiv = document.createElement('div');
-        loadingDiv = setLoadingStyle(elementStyles, loadingDiv);
+        let loadingDiv = createLoadingDiv(elementStyles);
         document.getElementById('loading').appendChild(loadingDiv);
     });
 }
