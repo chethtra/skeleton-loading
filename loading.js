@@ -28,7 +28,6 @@ createLoadingElements = function(elements){
 }
 
 class LoadingScreen{
-
     constructor(container, duration = 0){
         this.duration = duration;
         this.loadingContainer = container;   
