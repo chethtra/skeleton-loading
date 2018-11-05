@@ -1,4 +1,4 @@
-const elementStyle = [
+const loadingElementStyle = [
     'height', 
     'width', 
     'margin', 
@@ -8,7 +8,8 @@ const elementStyle = [
     'bottom', 
     'left', 
     'right',
-    'border-radius'
+    'border-radius',
+    'float'
 ];
 
 const containerStyle = [
@@ -16,18 +17,43 @@ const containerStyle = [
     'width', 
     'margin', 
     'padding', 
-    'position', 
-    'top', 
-    'bottom', 
-    'left', 
-    'right'
+    'position'
 ]
 
-createLoadingDiv = function(styling,){
+createContainer = function(container){
+    let styling = window.getComputedStyle(container);
+    let loadingContainer = document.createElement('div');
+    containerStyle.forEach(e=>{
+        if(e === 'position' && styling[e] === 'static'){
+            loadingContainer.style[e] = 'relative';
+            return;
+        }
+        loadingContainer.style[e] = styling[e]
+    });
+    
+    loadingContainer.style.top = container.offsetTop;
+    loadingContainer.style.left = container.offsetLeft;
+    document.getElementById('loading').appendChild(loadingContainer);
+    return loadingContainer;
+}
+
+createChildren = function(styling,){
     let element = document.createElement('div');
-    styleKeys.forEach(e=>element.style[e] = styling[e]);
+    loadingElementStyle.forEach(e=>element.style[e] = styling[e]);
     element.style.backgroundColor = 'gray';
     return element;
+}
+
+createLoadingElements = function(elements){
+    return elements.map(e => { 
+        let elementStyles = window.getComputedStyle(e);
+        let loadingDiv = createChildren(elementStyles);
+        return loadingDiv;
+    });
+}
+
+startLoadingTimer = function(duration){
+    setTimeout(()=>removeLoading(), duration);
 }
 
 removeLoading = function(){
@@ -35,31 +61,18 @@ removeLoading = function(){
     document.body.removeChild(loading);
 }
 
-startLoadingTimer = function(duration){
-    setTimeout(()=>removeLoading(), duration);
-}
-
-createLoadingElements = function(elements){
-    elements.forEach(e => { 
-        let elementStyles = window.getComputedStyle(e);
-        let loadingDiv = createLoadingDiv(elementStyles);
-        document.getElementById('loading').appendChild(loadingDiv);
-    });
-}
-
 class LoadingScreen{
     constructor({container, duration = 0}){
         this.duration = duration;
-        this.loadingContainer = container;   
+        this.containerName = container;   
     }
 
     start(){
-        let children = document.querySelector(this.loadingContainer).childNodes;
-        children = Array.from(children);
-        let loadableElements = children.filter(e => e.scrollHeight && e.scrollWidth);
-        createLoadingElements(loadableElements);
-        if(this.duration)
-            startLoadingTimer(this.duration);     
+        let container = document.querySelector(this.containerName);
+        let loadingContainer = createContainer(container);
+        let loadables = Array.from(container.childNodes).filter(e => e.scrollHeight && e.scrollWidth);
+        createLoadingElements(loadables).forEach(e=>loadingContainer.appendChild(e));
+        if(this.duration) startLoadingTimer(this.duration);     
     }
 
     dismiss(){
